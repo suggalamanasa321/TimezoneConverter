@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import TimeZoneDisplay from './TimeZoneDisplay';
 import AddTimeZone from './AddTimeZone';
-import ReactSlider from 'react-slider';
+// import ReactSlider from 'react-slider';
 
 class TimeZoneConverter extends Component {
   constructor(props) {
@@ -21,10 +21,19 @@ class TimeZoneConverter extends Component {
     this.setState({ currentTime: moment(date) });
   };
 
+  // handleTimeZoneAddition = (timeZone) => {
+  //   this.setState(prevState => ({
+  //     timeZones: [...prevState.timeZones, timeZone]
+  //   }));
+  // };
   handleTimeZoneAddition = (timeZone) => {
-    this.setState(prevState => ({
-      timeZones: [...prevState.timeZones, timeZone]
-    }));
+    if (timeZone && moment.tz.zone(timeZone)) {
+      this.setState(prevState => ({
+        timeZones: [...prevState.timeZones, timeZone]
+      }));
+    } else {
+      alert('Invalid Time Zone');
+    }
   };
 
   handleTimeZoneDeletion = (index) => {
@@ -41,11 +50,11 @@ class TimeZoneConverter extends Component {
     this.setState({ timeZones: items });
   };
 
-  handleReverseOrder = () => {
-    this.setState(prevState => ({
-      timeZones: prevState.timeZones.reverse()
-    }));
-  };
+  // handleReverseOrder = () => {
+  //   this.setState(prevState => ({
+  //     timeZones: prevState.timeZones.reverse()
+  //   }));
+  // };
 
   toggleDarkMode = () => {
     this.setState(prevState => ({
@@ -68,24 +77,23 @@ class TimeZoneConverter extends Component {
     window.open(googleCalendarUrl, '_blank');
   };
 
+  reverseTimeZones = () => {
+    this.setState(prevState => ({
+      timeZones: prevState.timeZones.slice().reverse()
+    }));
+  };
+
   render() {
     const { timeZones, currentTime, darkMode } = this.state;
-    const totalMinutesInDay = 24 * 60;
+    // const totalMinutesInDay = 24 * 60;
     const shareableLink = this.generateShareableLink();
 
     return (
     
       <div className={darkMode ? 'timezone-converter dark-mode' : 'timezone-converter'}>
         <h1>Time Zone Converter</h1>
-        <ReactSlider
-          className="time-slider"
-          thumbClassName="thumb"
-          trackClassName="track"
-          min={0}
-          max={totalMinutesInDay - 1}
-          value={currentTime.diff(moment().startOf('day'), 'minutes')}
-          onChange={this.handleTimeChange}
-        />
+        
+        
 
         <DatePicker
           selected={currentTime.toDate()}
@@ -94,7 +102,7 @@ class TimeZoneConverter extends Component {
           dateFormat="Pp"
         />
 
-        <button onClick={this.handleReverseOrder}>Reverse Order</button>
+        <button onClick={this.reverseTimeZones}>Reverse Order</button>
         <button onClick={this.toggleDarkMode}>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
 
         <DragDropContext onDragEnd={this.onDragEnd}>
@@ -125,8 +133,9 @@ class TimeZoneConverter extends Component {
         </DragDropContext>
 
         <AddTimeZone onAdd={this.handleTimeZoneAddition} />
+        
 
-        <p>Shareable Link: <a href={shareableLink} target="_blank" rel="noopener noreferrer">{shareableLink}</a></p>
+        <p className='link-para'>Shareable Link: <a href={shareableLink} target="_blank" rel="noopener noreferrer">{shareableLink}</a></p>
         <button onClick={this.handleScheduleMeet}>Schedule Meet</button>
       </div>
     );

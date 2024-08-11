@@ -40,6 +40,7 @@
   text-align: center;
 }
 
+
 .time-zone-display {
   display: flex;
   justify-content: space-between;
@@ -62,4 +63,58 @@
 
 .add-time-zone button {
   padding: 5px 10px;
+}
+.light-mode {
+  background-color: white;
+  color: black;
+}
+
+.dark-mode {
+  background-color: #333;
+  /* color: white; */
+}
+
+.time-zone-display {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-time-zone input {
+  margin-right: 10px;
+  padding: 5px;
+}
+
+button {
+  margin: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+.dark-mode button {
+  background-color: #555;
+  color: white;
+}
+
+.dark-mode button:hover {
+  background-color: #777;
+}
+.dark-mode h1{
+  color: whitesmoke;
+}
+.dark-mode a{
+  color: #ccc;
+}
+.dark-mode .link-para{
+  color: whitesmoke;
+
 }
